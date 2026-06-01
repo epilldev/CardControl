@@ -4,30 +4,38 @@
 //
 
 import SwiftUI
-import CoreData
 
+/// Responsável pelo fluxo inicial de navegação do aplicativo.
 struct ContentView: View {
 
     var body: some View {
-        VStack(spacing: 24) {
+        NavigationStack {
 
-            Image(systemName: "creditcard.fill")
-                .font(.system(size: 72))
-                .foregroundColor(.blue)
+            VStack(spacing: 24) {
 
-            Text("CardControl")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                Image(systemName: "creditcard.fill")
+                    .font(.system(size: 72))
+                    .foregroundColor(.blue)
 
-            Text("Em breve, um novo jeito de gerenciar seus cartões e acompanhar seus gastos.")
-                .font(.title3)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
-                .padding(.horizontal)
+                Text("CardControl")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
 
-            Spacer()
+                Text("Em breve, um novo jeito de gerenciar seus cartões e acompanhar seus gastos.")
+                    .font(.title3)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal)
+
+                NavigationLink("Acessar") {
+                    LoginView()
+                }
+                .buttonStyle(.borderedProminent)
+
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
     }
 }
 

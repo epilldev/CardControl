@@ -3,6 +3,8 @@ import SwiftUI
 /// Tela responsável pela autenticação inicial do usuário.
 struct LoginView: View {
 
+    @StateObject private var viewModel = LoginViewModel()
+
     var body: some View {
 
         VStack(spacing: 24) {
@@ -11,19 +13,33 @@ struct LoginView: View {
                 .font(.system(size: 72))
                 .foregroundColor(.blue)
 
-            Text("Tela de Login")
+            Text("Login")
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Aqui o usuário poderá acessar sua conta e gerenciar seus cartões.")
+            Text("Acesse sua conta para gerenciar seus cartões.")
                 .multilineTextAlignment(.center)
                 .foregroundColor(.secondary)
                 .padding(.horizontal)
 
-            NavigationLink("Entrar no App") {
-                HomeView()
+            TextField("E-mail", text: $viewModel.email)
+                .textFieldStyle(.roundedBorder)
+                .keyboardType(.emailAddress)
+
+            SecureField("Senha", text: $viewModel.senha)
+                .textFieldStyle(.roundedBorder)
+
+            Button("Entrar") {
+                viewModel.realizarLogin()
             }
             .buttonStyle(.borderedProminent)
+
+            NavigationLink(
+                destination: HomeView(),
+                isActive: $viewModel.usuarioAutenticado
+            ) {
+                EmptyView()
+            }
 
             Spacer()
         }

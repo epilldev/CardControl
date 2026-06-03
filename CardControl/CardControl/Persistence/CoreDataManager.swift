@@ -61,11 +61,28 @@ final class CoreDataManager {
         salvarContexto()
     }
 
-    /// Responsável por remover um cartão do banco de dados local.
-    func removerCartao(_ cartao: CartaoEntity) {
+    /// Responsável por remover um cartão a partir do seu identificador.
+    func removerCartao(id: UUID) {
 
-        context.delete(cartao)
+        let request: NSFetchRequest<CartaoEntity> =
+            CartaoEntity.fetchRequest()
 
-        salvarContexto()
+        request.predicate = NSPredicate(
+            format: "id == %@",
+            id as CVarArg
+        )
+
+        do {
+
+            if let cartao = try context.fetch(request).first {
+
+                context.delete(cartao)
+
+                salvarContexto()
+            }
+
+        } catch {
+            print("Erro ao remover cartão: \(error)")
+        }
     }
 }

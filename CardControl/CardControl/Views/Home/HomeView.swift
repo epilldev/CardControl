@@ -18,13 +18,43 @@ struct HomeView: View {
                 Text("Gerencie seus cartões e acompanhe seus limites.")
                     .foregroundColor(.secondary)
 
-                ForEach(viewModel.cartoes) { cartao in
-                    CardView(cartao: cartao)
+                NavigationLink("Novo Cartão") {
+                    CreateCardView()
+                }
+                .buttonStyle(.borderedProminent)
+
+                if viewModel.cartoes.isEmpty {
+
+                    Text("Nenhum cartão cadastrado.")
+                        .foregroundColor(.secondary)
+
+                } else {
+
+                    ForEach(viewModel.cartoes) { cartao in
+
+                        VStack(alignment: .leading, spacing: 8) {
+
+                            CardView(cartao: cartao)
+
+                            Button(role: .destructive) {
+
+                                viewModel.removerCartao(
+                                    id: cartao.id
+                                )
+
+                            } label: {
+                                Text("Excluir Cartão")
+                            }
+                        }
+                    }
                 }
             }
             .padding()
         }
         .navigationTitle("Home")
+        .onAppear {
+            viewModel.carregarCartoes()
+        }
     }
 }
 

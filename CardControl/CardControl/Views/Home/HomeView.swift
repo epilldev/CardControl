@@ -3,26 +3,27 @@ import SwiftUI
 /// Tela principal exibida após autenticação do usuário.
 struct HomeView: View {
 
+    @StateObject private var viewModel = HomeViewModel()
+
     var body: some View {
 
-        VStack(spacing: 24) {
+        ScrollView {
 
-            Image(systemName: "creditcard.fill")
-                .font(.system(size: 72))
-                .foregroundColor(.blue)
+            VStack(alignment: .leading, spacing: 20) {
 
-            Text("Home do Aplicativo")
-                .font(.largeTitle)
-                .fontWeight(.bold)
+                Text("Meus Cartões")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
 
-            Text("Aqui serão exibidos os cartões cadastrados e ações rápidas do sistema.")
-                .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
-                .padding(.horizontal)
+                Text("Gerencie seus cartões e acompanhe seus limites.")
+                    .foregroundColor(.secondary)
 
-            Spacer()
+                ForEach(viewModel.cartoes) { cartao in
+                    CardView(cartao: cartao)
+                }
+            }
+            .padding()
         }
-        .padding()
         .navigationTitle("Home")
     }
 }

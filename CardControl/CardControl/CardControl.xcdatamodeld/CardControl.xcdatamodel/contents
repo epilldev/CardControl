@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
-    <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24512" systemVersion="25F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="CartaoEntity" representedClassName="CartaoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="cvv" optional="YES" attributeType="String"/>
+        <attribute name="finalCartao" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="limiteTotal" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="nome" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <attribute name="tipo" optional="YES" attributeType="String"/>
+        <relationship name="gastos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="GastoEntity" inverseName="cartao" inverseEntity="GastoEntity"/>
+        <relationship name="usuario" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UsuarioEntity" inverseName="cartoes" inverseEntity="UsuarioEntity"/>
     </entity>
-    <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
-    </elements>
+    <entity name="GastoEntity" representedClassName="GastoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="data" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="descricao" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="valor" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="cartao" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CartaoEntity" inverseName="gastos" inverseEntity="CartaoEntity"/>
+    </entity>
+    <entity name="UsuarioEntity" representedClassName="UsuarioEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="nome" optional="YES" attributeType="String"/>
+        <relationship name="cartoes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CartaoEntity" inverseName="usuario" inverseEntity="CartaoEntity"/>
+    </entity>
 </model>

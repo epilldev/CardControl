@@ -1,31 +1,31 @@
 import SwiftUI
 
 struct DetalheCartaoView: View {
-
+    
     let cartao: Cartao
     var paletteIndex: Int = 0
-
+    
     @Environment(\.dismiss) private var dismiss
-
+    
     private let paletas: [[Color]] = [
         [Color(red: 0.42, green: 0.17, blue: 0.88), Color(red: 0.10, green: 0.03, blue: 0.40)],
         [Color(red: 1.00, green: 0.45, blue: 0.10), Color(red: 0.90, green: 0.18, blue: 0.50)],
         [Color(red: 0.14, green: 0.17, blue: 0.35), Color(red: 0.06, green: 0.08, blue: 0.20)],
     ]
-
+    
     private var coresCartao: [Color] { paletas[paletteIndex % paletas.count] }
-
+    
     private let pageBackground = Color(red: 0.96, green: 0.94, blue: 1.00)
     private let pink           = Color(red: 0.95, green: 0.24, blue: 0.57)
     private let teal           = Color(red: 0.07, green: 0.75, blue: 0.58)
     private let purple         = Color(red: 0.42, green: 0.17, blue: 0.88)
     private let orange         = Color(red: 1.00, green: 0.57, blue: 0.15)
     private let darkText       = Color(red: 0.12, green: 0.06, blue: 0.28)
-
+    
     var body: some View {
         ZStack(alignment: .top) {
             pageBackground.ignoresSafeArea()
-
+            
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     cabecalho
@@ -35,26 +35,26 @@ struct DetalheCartaoView: View {
         }
         .navigationBarHidden(true)
     }
-
+    
     // MARK: - Cabeçalho
-
+    
     private var cabecalho: some View {
         ZStack {
             LinearGradient(colors: coresCartao, startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea(edges: .top)
-
+            
             Circle()
                 .fill(.white.opacity(0.07))
                 .frame(width: 260)
                 .offset(x: 140, y: -40)
                 .blur(radius: 50)
-
+            
             Circle()
                 .fill(.white.opacity(0.04))
                 .frame(width: 180)
                 .offset(x: -60, y: 60)
                 .blur(radius: 40)
-
+            
             VStack(spacing: 0) {
                 HStack {
                     Button(action: { dismiss() }) {
@@ -74,24 +74,24 @@ struct DetalheCartaoView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
-
+                
                 Spacer().frame(height: 20)
-
+                
                 cartaoVisual
                     .padding(.horizontal, 20)
-
+                
                 Spacer().frame(height: 28)
             }
         }
     }
-
+    
     private var cartaoVisual: some View {
         ZStack {
             LinearGradient(colors: coresCartao, startPoint: .topLeading, endPoint: .bottomTrailing)
-
+            
             Circle().fill(.white.opacity(0.08)).frame(width: 210).offset(x: 115, y: -35)
             Circle().fill(.white.opacity(0.05)).frame(width: 160).offset(x: 145, y: 65)
-
+            
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Text(cartao.nome)
@@ -120,7 +120,7 @@ struct DetalheCartaoView: View {
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: .black.opacity(0.28), radius: 22, x: 0, y: 10)
     }
-
+    
     private var tipoBadge: some View {
         Text(cartao.tipo == .virtual ? "Virtual" : "Físico")
             .font(.caption2)
@@ -131,7 +131,7 @@ struct DetalheCartaoView: View {
             .foregroundColor(.white)
             .clipShape(Capsule())
     }
-
+    
     private var statusBadge: some View {
         let (label, cor) = statusInfo
         return Text(label)
@@ -143,7 +143,7 @@ struct DetalheCartaoView: View {
             .foregroundColor(cor)
             .clipShape(Capsule())
     }
-
+    
     private var statusInfo: (String, Color) {
         switch cartao.status {
         case .ativo:     return ("Ativo",     Color(red: 0.25, green: 1.00, blue: 0.65))
@@ -151,9 +151,9 @@ struct DetalheCartaoView: View {
         case .cancelado: return ("Cancelado", Color(red: 1.00, green: 0.38, blue: 0.38))
         }
     }
-
+    
     // MARK: - Corpo
-
+    
     private var corpo: some View {
         VStack(alignment: .leading, spacing: 28) {
             statTiles
@@ -164,9 +164,9 @@ struct DetalheCartaoView: View {
         .padding(.top, 28)
         .padding(.bottom, 44)
     }
-
+    
     // MARK: - Stat Tiles
-
+    
     private var statTiles: some View {
         VStack(spacing: 12) {
             HStack(spacing: 12) {
@@ -199,7 +199,7 @@ struct DetalheCartaoView: View {
             }
         }
     }
-
+    
     private func statTile(titulo: String, valor: String, icon: String, colors: [Color]) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             Image(systemName: icon)
@@ -223,13 +223,13 @@ struct DetalheCartaoView: View {
         .clipShape(RoundedRectangle(cornerRadius: 18))
         .shadow(color: colors.first!.opacity(0.40), radius: 12, x: 0, y: 6)
     }
-
+    
     // MARK: - Progresso de limite
-
+    
     private var progressSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             sectionHeader("Limite Utilizado")
-
+            
             VStack(spacing: 10) {
                 HStack {
                     Text("\(Int(cartao.percentualUsado * 100))% utilizado")
@@ -241,7 +241,7 @@ struct DetalheCartaoView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
-
+                
                 GeometryReader { geo in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 8)
@@ -267,7 +267,7 @@ struct DetalheCartaoView: View {
             .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
         }
     }
-
+    
     private var corBarra: Color {
         switch cartao.percentualUsado {
         case ..<0.60: return teal
@@ -275,9 +275,9 @@ struct DetalheCartaoView: View {
         default:      return pink
         }
     }
-
+    
     // MARK: - Transações
-
+    
     private var transacoesSection: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack {
@@ -287,7 +287,7 @@ struct DetalheCartaoView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-
+            
             if gastosOrdenados.isEmpty {
                 emptyState
             } else {
@@ -306,11 +306,11 @@ struct DetalheCartaoView: View {
             }
         }
     }
-
+    
     private var gastosOrdenados: [Gasto] {
         cartao.gastos.sorted { $0.data > $1.data }
     }
-
+    
     private func transacaoRow(_ gasto: Gasto) -> some View {
         HStack(spacing: 14) {
             ZStack {
@@ -325,7 +325,7 @@ struct DetalheCartaoView: View {
                     .font(.system(size: 15, weight: .bold))
                     .foregroundColor(pink)
             }
-
+            
             VStack(alignment: .leading, spacing: 3) {
                 Text(gasto.descricao)
                     .font(.system(size: 14, weight: .semibold))
@@ -335,9 +335,9 @@ struct DetalheCartaoView: View {
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }
-
+            
             Spacer()
-
+            
             Text("-" + gasto.valor.moeda)
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(pink)
@@ -345,7 +345,7 @@ struct DetalheCartaoView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 14)
     }
-
+    
     private var emptyState: some View {
         VStack(spacing: 14) {
             ZStack {
@@ -371,9 +371,9 @@ struct DetalheCartaoView: View {
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
     }
-
+    
     // MARK: - Helpers
-
+    
     private func sectionHeader(_ title: String) -> some View {
         Text(title)
             .font(.system(size: 18, weight: .bold))
@@ -402,17 +402,56 @@ private extension Double {
 }
 
 #Preview {
+    
     let gastos = [
-        Gasto(id: UUID(), valor: 850.00, data: Date(),                              descricao: "Supermercado Extra",  cartaoId: UUID()),
-        Gasto(id: UUID(), valor: 320.50, data: Date().addingTimeInterval(-86400),   descricao: "iFood",               cartaoId: UUID()),
-        Gasto(id: UUID(), valor: 929.50, data: Date().addingTimeInterval(-86400*3), descricao: "Amazon",              cartaoId: UUID()),
+        
+        Gasto(
+            id: UUID(),
+            valor: 850.00,
+            data: Date(),
+            descricao: "Compra de Mercado",
+            estabelecimento: "Supermercado Extra",
+            categoria: .alimentacao,
+            cartaoId: UUID()
+        ),
+        
+        Gasto(
+            id: UUID(),
+            valor: 320.50,
+            data: Date().addingTimeInterval(-86400),
+            descricao: "Pedido de Comida",
+            estabelecimento: "iFood",
+            categoria: .alimentacao,
+            cartaoId: UUID()
+        ),
+        
+        Gasto(
+            id: UUID(),
+            valor: 929.50,
+            data: Date().addingTimeInterval(-86400 * 3),
+            descricao: "Eletrônicos",
+            estabelecimento: "Amazon",
+            categoria: .compras,
+            cartaoId: UUID()
+        )
     ]
+    
     let cartao = Cartao(
-        id: UUID(), nome: "Nubank", limiteTotal: 3200,
-        finalCartao: "4321", cvv: "123", status: .ativo, tipo: .fisico,
+        id: UUID(),
+        nome: "Nubank",
+        limiteTotal: 3200,
+        finalCartao: "4321",
+        cvv: "123",
+        status: .ativo,
+        tipo: .fisico,
         gastos: gastos
     )
+    
     NavigationStack {
-        DetalheCartaoView(cartao: cartao, paletteIndex: 0)
+        
+        DetalheCartaoView(
+            cartao: cartao,
+            paletteIndex: 0
+        )
     }
 }

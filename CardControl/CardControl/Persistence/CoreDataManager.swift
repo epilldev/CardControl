@@ -24,6 +24,8 @@ final class CoreDataManager {
         }
     }
 
+    // MARK: - Cartões
+
     /// Responsável por recuperar todos os cartões cadastrados no banco de dados local.
     func buscarCartoes() -> [CartaoEntity] {
 
@@ -138,6 +140,88 @@ final class CoreDataManager {
 
         } catch {
             print("Erro ao remover cartão: \(error)")
+        }
+    }
+
+    // MARK: - Gastos
+
+    /// Responsável por cadastrar um novo gasto vinculado a um cartão.
+    func salvarGasto(
+        valor: Double,
+        data: Date,
+        descricao: String,
+        estabelecimento: String,
+        categoria: String,
+        cartaoId: UUID
+    ) {
+
+        guard let cartao = buscarCartao(id: cartaoId)
+        else {
+            print("Cartão não encontrado")
+            return
+        }
+
+        let gasto = GastoEntity(context: context)
+
+        gasto.id = UUID()
+        gasto.valor = valor
+        gasto.data = data
+        gasto.descricao = descricao
+        gasto.estabelecimento = estabelecimento
+        gasto.categoria = categoria
+
+        gasto.cartao = cartao
+
+        salvarContexto()
+    }
+
+    /// Responsável por recuperar todos os gastos de um cartão.
+    func buscarGastos(
+        cartaoId: UUID
+    ) -> [GastoEntity] {
+
+        guard let cartao = buscarCartao(id: cartaoId)
+        else {
+            return []
+        }
+
+        let gastos =
+            cartao.gastos?.allObjects
+            as? [GastoEntity]
+            ?? []
+
+        return gastos.sorted {
+            ($0.data ?? .now) >
+            ($1.data ?? .now)
+        }
+    }
+
+    /// Responsável por remover um gasto.
+    func removerGasto(
+        id: UUID
+    ) {
+
+        let request: NSFetchRequest<GastoEntity> =
+            GastoEntity.fetchRequest()
+
+        request.predicate = NSPredicate(
+            format: "id == %@",
+            id as CVarArg
+        )
+
+        do {
+
+            if let gasto =
+                try context.fetch(request).first {
+
+                context.delete(gasto)
+
+                salvarContexto()
+            }
+
+        } catch {
+
+            print("Erro ao remover gasto: \(error)")
         }
     }
 }

@@ -27,8 +27,31 @@ final class HomeViewModel: ObservableObject {
 
         cartoes = entidades.map { entidade in
 
-            Cartao(
-                id: entidade.id ?? UUID(),
+            let cartaoId =
+                entidade.id ?? UUID()
+
+            let gastosEntidade =
+                CoreDataManager.shared.buscarGastos(
+                    cartaoId: cartaoId
+                )
+
+            let gastos = gastosEntidade.map { gasto in
+
+                Gasto(
+                    id: gasto.id ?? UUID(),
+                    valor: gasto.valor,
+                    data: gasto.data ?? Date(),
+                    descricao: gasto.descricao ?? "",
+                    estabelecimento: gasto.estabelecimento ?? "",
+                    categoria: CategoriaGasto(
+                        rawValue: gasto.categoria ?? ""
+                    ) ?? .outros,
+                    cartaoId: cartaoId
+                )
+            }
+
+            return Cartao(
+                id: cartaoId,
                 nome: entidade.nome ?? "Sem nome",
                 limiteTotal: entidade.limiteTotal,
                 finalCartao: entidade.finalCartao ?? "",
@@ -39,7 +62,7 @@ final class HomeViewModel: ObservableObject {
                 tipo: TipoCartao(
                     rawValue: entidade.tipo ?? "fisico"
                 ) ?? .fisico,
-                gastos: []
+                gastos: gastos
             )
         }
     }

@@ -12,8 +12,10 @@
         <relationship name="usuario" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UsuarioEntity" inverseName="cartoes" inverseEntity="UsuarioEntity"/>
     </entity>
     <entity name="GastoEntity" representedClassName="GastoEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="categoria" optional="YES" attributeType="String"/>
         <attribute name="data" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="descricao" optional="YES" attributeType="String"/>
+        <attribute name="estabelecimento" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="valor" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <relationship name="cartao" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CartaoEntity" inverseName="gastos" inverseEntity="CartaoEntity"/>

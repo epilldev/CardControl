@@ -10,51 +10,137 @@ struct CreateCardView: View {
 
     var body: some View {
 
-        Form {
+        ZStack {
 
-            Section("Dados do Cartão") {
+            Color(
+                red: 0.96,
+                green: 0.94,
+                blue: 1.00
+            )
+            .ignoresSafeArea()
 
-                TextField(
-                    "Nome do cartão",
-                    text: $viewModel.nome
-                )
+            Form {
 
-                TextField(
-                    "Limite Total",
-                    text: $viewModel.limiteTotal
-                )
-                .keyboardType(.decimalPad)
+                Section {
 
-                TextField(
-                    "Final do Cartão",
-                    text: $viewModel.finalCartao
-                )
+                    VStack(
+                        alignment: .leading,
+                        spacing: 12
+                    ) {
 
-                TextField(
-                    "CVV",
-                    text: $viewModel.cvv
-                )
-                .keyboardType(.numberPad)
+                        Text("Novo Cartão")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
 
-                Toggle(
-                    "Cartão Virtual",
-                    isOn: $viewModel.cartaoVirtual
-                )
+                        Text(
+                            "Cadastre um novo cartão para controlar seus gastos."
+                        )
+                        .foregroundColor(
+                            .white.opacity(0.9)
+                        )
+                    }
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: .leading
+                    )
+                    .padding()
+                    .background(
+                        LinearGradient(
+                            colors: [
+                                Color(
+                                    red: 0.42,
+                                    green: 0.17,
+                                    blue: 0.88
+                                ),
+                                Color(
+                                    red: 0.10,
+                                    green: 0.03,
+                                    blue: 0.35
+                                )
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: 20
+                        )
+                    )
+                }
+
+                Section("Dados do Cartão") {
+
+                    TextField(
+                        "Nome do cartão",
+                        text: $viewModel.nome
+                    )
+
+                    TextField(
+                        "Limite Total",
+                        text: $viewModel.limiteTotal
+                    )
+                    .keyboardType(.decimalPad)
+
+                    TextField(
+                        "Final do Cartão",
+                        text: $viewModel.finalCartao
+                    )
+
+                    TextField(
+                        "CVV",
+                        text: $viewModel.cvv
+                    )
+                    .keyboardType(.numberPad)
+
+                    Toggle(
+                        "Cartão Virtual",
+                        isOn: $viewModel.cartaoVirtual
+                    )
+                    .tint(
+                        Color(
+                            red: 0.42,
+                            green: 0.17,
+                            blue: 0.88
+                        )
+                    )
+                }
+
+                Section {
+
+                    Button {
+
+                        viewModel.salvarCartao()
+
+                        dismiss()
+
+                    } label: {
+
+                        Text("Salvar Cartão")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(
+                        Color(
+                            red: 0.42,
+                            green: 0.17,
+                            blue: 0.88
+                        )
+                    )
+                }
             }
-
-            Button("Salvar Cartão") {
-
-                viewModel.salvarCartao()
-
-                dismiss()
-            }
+            .scrollContentBackground(.hidden)
         }
         .navigationTitle("Novo Cartão")
+        .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 #Preview {
+
     NavigationStack {
+
         CreateCardView()
     }
 }

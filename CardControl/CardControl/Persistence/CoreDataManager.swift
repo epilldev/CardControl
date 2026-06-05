@@ -38,6 +38,25 @@ final class CoreDataManager {
         }
     }
 
+    /// Responsável por buscar um cartão a partir do seu identificador.
+    func buscarCartao(id: UUID) -> CartaoEntity? {
+
+        let request: NSFetchRequest<CartaoEntity> =
+            CartaoEntity.fetchRequest()
+
+        request.predicate = NSPredicate(
+            format: "id == %@",
+            id as CVarArg
+        )
+
+        do {
+            return try context.fetch(request).first
+        } catch {
+            print("Erro ao buscar cartão: \(error)")
+            return nil
+        }
+    }
+
     /// Responsável por cadastrar um novo cartão no banco de dados local.
     func salvarCartao(
         nome: String,
@@ -59,6 +78,42 @@ final class CoreDataManager {
         cartao.tipo = tipo
 
         salvarContexto()
+    }
+
+    /// Responsável por atualizar os dados de um cartão existente.
+    func atualizarCartao(
+        id: UUID,
+        limiteTotal: Double,
+        status: String
+    ) {
+
+        let request: NSFetchRequest<CartaoEntity> =
+            CartaoEntity.fetchRequest()
+
+        request.predicate = NSPredicate(
+            format: "id == %@",
+            id as CVarArg
+        )
+
+        do {
+
+            if let cartao = try context.fetch(request).first {
+
+                print("Cartão encontrado: \(cartao.nome ?? "")")
+                print("Novo limite: \(limiteTotal)")
+                print("Novo status: \(status)")
+
+                cartao.limiteTotal = limiteTotal
+                cartao.status = status
+
+                salvarContexto()
+
+                print("Cartão atualizado com sucesso")
+            }
+
+        } catch {
+            print("Erro ao atualizar cartão: \(error)")
+        }
     }
 
     /// Responsável por remover um cartão a partir do seu identificador.

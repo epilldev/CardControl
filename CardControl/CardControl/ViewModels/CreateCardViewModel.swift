@@ -9,6 +9,8 @@ final class CreateCardViewModel: ObservableObject {
     @Published var finalCartao = ""
     @Published var cvv = ""
 
+    @Published var cartaoVirtual = false
+
     /// Responsável por cadastrar um novo cartão no banco de dados local.
     func salvarCartao() {
 
@@ -22,7 +24,9 @@ final class CreateCardViewModel: ObservableObject {
             finalCartao: finalCartao,
             cvv: cvv,
             status: "ativo",
-            tipo: "fisico"
+            tipo: cartaoVirtual
+                ? "virtual"
+                : "fisico"
         )
     }
 }

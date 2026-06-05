@@ -88,7 +88,7 @@ struct HomeView: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Olá 👋")
+                    Text("Olá (Usuário)")
                     //Text("Olá, \(viewModel.usuario.nome) 👋")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
@@ -187,10 +187,24 @@ struct HomeView: View {
                 .foregroundColor(Color(red: 0.12, green: 0.06, blue: 0.28))
             
             VStack(spacing: 18) {
+                
                 ForEach(Array(viewModel.cartoes.enumerated()), id: \.element.id) { index, cartao in
-                    //ForEach(Array(viewModel.usuario.cartoes.enumerated()), id: \.element.id) { index, cartao in
-                    CartaoCard(cartao: cartao, paletteIndex: index)
+                    
+                    NavigationLink {
+                        
+                        CardDetailsView(cartao: cartao)
+                        
+                    } label: {
+                        
+                        CartaoCard(
+                            cartao: cartao,
+                            paletteIndex: index
+                        )
+                    }
+                    .buttonStyle(.plain)
                 }
+                
+                
             }
         }
     }

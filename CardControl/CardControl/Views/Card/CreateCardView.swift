@@ -35,6 +35,11 @@ struct CreateCardView: View {
                     text: $viewModel.cvv
                 )
                 .keyboardType(.numberPad)
+
+                Toggle(
+                    "Cartão Virtual",
+                    isOn: $viewModel.cartaoVirtual
+                )
             }
 
             Button("Salvar Cartão") {

@@ -1,10 +1,19 @@
 import Foundation
 import Combine
 
-/// Responsável pelas informações exibidas na tela inicial do aplicativo.
 final class HomeViewModel: ObservableObject {
 
     @Published var cartoes: [Cartao] = []
+
+    var resumo: ResumoFinanceiro {
+
+        ResumoFinanceiro(
+            totalGeral: cartoes.reduce(0) { $0 + $1.totalGasto },
+            totalMesAtual: cartoes.reduce(0) { $0 + $1.gastosMesAtual },
+            totalLimite: cartoes.reduce(0) { $0 + $1.limiteTotal },
+            totalDisponivel: cartoes.reduce(0) { $0 + $1.limiteDisponivel }
+        )
+    }
 
     init() {
         carregarCartoes()

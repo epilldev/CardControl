@@ -182,9 +182,26 @@ struct HomeView: View {
     
     private var listaCartoes: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Meus Cartões")
-                .font(.system(size: 20, weight: .bold))
-                .foregroundColor(Color(red: 0.12, green: 0.06, blue: 0.28))
+            
+            HStack {
+                Text("Meus Cartões")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color(red: 0.12, green: 0.06, blue: 0.28))
+                
+                Spacer()
+                
+                NavigationLink {
+                    HistoricoView(cartoes: viewModel.cartoes)
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "clock.arrow.circlepath")
+                        Text("Histórico")
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.brandPurple)
+                }
+            }
             
             VStack(spacing: 18) {
                 

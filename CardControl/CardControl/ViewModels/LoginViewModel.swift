@@ -1,18 +1,22 @@
 import Foundation
 import Combine
 
-/// Responsável pelas regras de autenticação da tela de login.
+/// Responsável pelo gerenciamento do estado de autenticação.
 final class LoginViewModel: ObservableObject {
 
-    @Published var email = ""
-    @Published var senha = ""
-
+    /// Indica se existe um usuário autenticado.
     @Published var usuarioAutenticado = false
 
-    func realizarLogin() {
+    init() {
 
-        if !email.isEmpty && !senha.isEmpty {
-            usuarioAutenticado = true
-        }
+        usuarioAutenticado =
+            AuthService.shared.usuarioAtual != nil
+    }
+
+    /// Atualiza o estado da autenticação após o login.
+    func atualizarAutenticacao() {
+
+        usuarioAutenticado =
+            AuthService.shared.usuarioAtual != nil
     }
 }

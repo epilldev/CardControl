@@ -16,9 +16,22 @@
 		579350C82FC9E26C00243046 /* CardControl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardControl.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		578338802FD857D200993923 /* Exceptions for "CardControl" folder in "CardControl" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 579350C72FC9E26C00243046 /* CardControl */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		579350CA2FC9E26C00243046 /* CardControl */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				578338802FD857D200993923 /* Exceptions for "CardControl" folder in "CardControl" target */,
+			);
 			path = CardControl;
 			sourceTree = "<group>";
 		};
@@ -278,6 +291,7 @@
 				DEVELOPMENT_TEAM = FPB4V88ZY9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CardControl/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -310,6 +324,7 @@
 				DEVELOPMENT_TEAM = FPB4V88ZY9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CardControl/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

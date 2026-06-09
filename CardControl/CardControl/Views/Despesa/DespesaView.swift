@@ -1,25 +1,24 @@
 import SwiftUI
 
 struct DespesaView: View {
-
-    @StateObject private var viewModel: DespesaViewModel
+    
+    @StateObject private var viewModel =
+    DespesaViewModel()
     @Environment(\.dismiss) private var dismiss
     @FocusState private var focusedField: Field?
-
+    
     private enum Field { case descricao, valor }
-
+    
     private let purple     = Color(red: 0.42, green: 0.17, blue: 0.88)
     private let deepPurple = Color(red: 0.10, green: 0.03, blue: 0.35)
     private let pink       = Color(red: 0.95, green: 0.24, blue: 0.57)
-
-    init(cartoes: [Cartao] = []) {
-        _viewModel = StateObject(wrappedValue: DespesaViewModel(cartoes: cartoes))
-    }
-
+    
+    
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             Color(.systemGroupedBackground).ignoresSafeArea()
-
+            
             VStack(spacing: 0) {
                 cabecalho
                 ScrollView(showsIndicators: false) {
@@ -34,25 +33,25 @@ struct DespesaView: View {
                     .padding(.bottom, 120)
                 }
             }
-
+            
             registrarButton
         }
         .navigationBarHidden(true)
     }
-
+    
     // MARK: - Cabeçalho com gradiente + campo de valor
-
+    
     private var cabecalho: some View {
         ZStack {
             LinearGradient(colors: [purple, deepPurple], startPoint: .topLeading, endPoint: .bottomTrailing)
                 .ignoresSafeArea(edges: .top)
-
+            
             Circle()
                 .fill(pink.opacity(0.25))
                 .frame(width: 220)
                 .offset(x: 130, y: -20)
                 .blur(radius: 55)
-
+            
             VStack(spacing: 0) {
                 HStack {
                     Button(action: { dismiss() }) {
@@ -72,20 +71,20 @@ struct DespesaView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
-
+                
                 Spacer().frame(height: 22)
-
+                
                 VStack(spacing: 8) {
                     Text("Valor da despesa")
                         .font(.caption)
                         .fontWeight(.medium)
                         .foregroundColor(.white.opacity(0.60))
-
+                    
                     HStack(alignment: .firstTextBaseline, spacing: 6) {
                         Text("R$")
                             .font(.system(size: 22, weight: .semibold))
                             .foregroundColor(.white.opacity(0.70))
-
+                        
                         ZStack(alignment: .center) {
                             if viewModel.valor.isEmpty {
                                 Text("0,00")
@@ -107,9 +106,9 @@ struct DespesaView: View {
             }
         }
     }
-
+    
     // MARK: - Seção: Descrição
-
+    
     private var descricaoSection: some View {
         formCard {
             VStack(alignment: .leading, spacing: 10) {
@@ -120,9 +119,9 @@ struct DespesaView: View {
             }
         }
     }
-
+    
     // MARK: - Seção: Data
-
+    
     private var dataSection: some View {
         formCard {
             HStack {
@@ -141,14 +140,14 @@ struct DespesaView: View {
             }
         }
     }
-
+    
     // MARK: - Seção: Categoria
-
+    
     private var categoriaSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionLabel("Categoria", icon: "tag.fill")
                 .padding(.horizontal, 4)
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10) {
                     ForEach(DespesaViewModel.Categoria.allCases) { cat in
@@ -160,11 +159,11 @@ struct DespesaView: View {
             }
         }
     }
-
+    
     private func categoriaChip(_ cat: DespesaViewModel.Categoria) -> some View {
         let selected = viewModel.categoriaSelecionada == cat
         let (bg, fg) = categoriaCor(cat)
-
+        
         return Button(action: {
             withAnimation(.easeInOut(duration: 0.15)) {
                 viewModel.categoriaSelecionada = cat
@@ -185,7 +184,7 @@ struct DespesaView: View {
             .overlay(Capsule().stroke(selected ? Color.clear : bg.opacity(0.35), lineWidth: 1))
         }
     }
-
+    
     private func categoriaCor(_ cat: DespesaViewModel.Categoria) -> (Color, Color) {
         switch cat {
         case .alimentacao: return (Color(red: 1.00, green: 0.57, blue: 0.15), Color(red: 0.82, green: 0.36, blue: 0.00))
@@ -197,20 +196,20 @@ struct DespesaView: View {
         case .outros:      return (Color.secondary,                            Color.secondary)
         }
     }
-
+    
     // MARK: - Seção: Cartão
-
+    
     private let miniPaletas: [[Color]] = [
         [Color(red: 0.42, green: 0.17, blue: 0.88), Color(red: 0.10, green: 0.03, blue: 0.40)],
         [Color(red: 1.00, green: 0.45, blue: 0.10), Color(red: 0.90, green: 0.18, blue: 0.50)],
         [Color(red: 0.14, green: 0.17, blue: 0.35), Color(red: 0.06, green: 0.08, blue: 0.20)],
     ]
-
+    
     private var cartaoSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             sectionLabel("Cartão", icon: "creditcard.fill")
                 .padding(.horizontal, 4)
-
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(Array(viewModel.cartoes.enumerated()), id: \.element.id) { index, cartao in
@@ -222,11 +221,11 @@ struct DespesaView: View {
             }
         }
     }
-
+    
     private func miniCartao(cartao: Cartao, index: Int) -> some View {
         let selecionado = viewModel.cartaoSelecionado?.id == cartao.id
         let cores = miniPaletas[index % miniPaletas.count]
-
+        
         return Button(action: {
             withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
                 viewModel.cartaoSelecionado = cartao
@@ -263,9 +262,9 @@ struct DespesaView: View {
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: viewModel.cartaoSelecionado?.id)
     }
-
+    
     // MARK: - Botão registrar (fixo no rodapé)
-
+    
     private var registrarButton: some View {
         VStack(spacing: 0) {
             Divider()
@@ -282,8 +281,8 @@ struct DespesaView: View {
                     .background(
                         LinearGradient(
                             colors: viewModel.formularioValido
-                                ? [purple, pink]
-                                : [Color.gray.opacity(0.40), Color.gray.opacity(0.40)],
+                            ? [purple, pink]
+                            : [Color.gray.opacity(0.40), Color.gray.opacity(0.40)],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -301,9 +300,9 @@ struct DespesaView: View {
             .background(Color(.systemGroupedBackground))
         }
     }
-
+    
     // MARK: - Helpers
-
+    
     private func formCard<Content: View>(@ViewBuilder content: () -> Content) -> some View {
         content()
             .padding(16)
@@ -311,7 +310,7 @@ struct DespesaView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
     }
-
+    
     private func sectionLabel(_ label: String, icon: String) -> some View {
         HStack(spacing: 6) {
             Image(systemName: icon)

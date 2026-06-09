@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		57A6E3322FD848B900911AC7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 57A6E3312FD848B900911AC7 /* GoogleSignIn */; };
 		57A6E3342FD848B900911AC7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 57A6E3332FD848B900911AC7 /* GoogleSignInSwift */; };
+		57A6E3372FD84A1600911AC7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 57A6E3362FD84A1600911AC7 /* FirebaseAuth */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57A6E3322FD848B900911AC7 /* GoogleSignIn in Frameworks */,
+				57A6E3372FD84A1600911AC7 /* FirebaseAuth in Frameworks */,
 				57A6E3342FD848B900911AC7 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -40,6 +42,7 @@
 			isa = PBXGroup;
 			children = (
 				579350CA2FC9E26C00243046 /* CardControl */,
+				57A6E3352FD84A1600911AC7 /* Frameworks */,
 				579350C92FC9E26C00243046 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +53,13 @@
 				579350C82FC9E26C00243046 /* CardControl.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		57A6E3352FD84A1600911AC7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,6 +84,7 @@
 			packageProductDependencies = (
 				57A6E3312FD848B900911AC7 /* GoogleSignIn */,
 				57A6E3332FD848B900911AC7 /* GoogleSignInSwift */,
+				57A6E3362FD84A1600911AC7 /* FirebaseAuth */,
 			);
 			productName = CardControl;
 			productReference = 579350C82FC9E26C00243046 /* CardControl.app */;
@@ -373,6 +384,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 57A6E3302FD848B900911AC7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		57A6E3362FD84A1600911AC7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57A6E32F2FD8483600911AC7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

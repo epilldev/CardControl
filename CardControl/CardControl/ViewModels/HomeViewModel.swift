@@ -2,11 +2,18 @@ import Foundation
 import Combine
 
 final class HomeViewModel: ObservableObject {
-
+    
+    /// Retorna o nome do usuário autenticado.
+    var nomeUsuario: String {
+        
+        AuthService.shared.usuarioAtual?.nome
+        ?? "Usuário"
+    }
+    
     @Published var cartoes: [Cartao] = []
-
+    
     var resumo: ResumoFinanceiro {
-
+        
         ResumoFinanceiro(
             totalGeral: cartoes.reduce(0) { $0 + $1.totalGasto },
             totalMesAtual: cartoes.reduce(0) { $0 + $1.gastosMesAtual },
@@ -14,29 +21,29 @@ final class HomeViewModel: ObservableObject {
             totalDisponivel: cartoes.reduce(0) { $0 + $1.limiteDisponivel }
         )
     }
-
+    
     init() {
         carregarCartoes()
     }
-
+    
     /// Responsável por carregar os cartões persistidos no Core Data.
     func carregarCartoes() {
-
+        
         let entidades =
-            CoreDataManager.shared.buscarCartoes()
-
+        CoreDataManager.shared.buscarCartoes()
+        
         cartoes = entidades.map { entidade in
-
+            
             let cartaoId =
-                entidade.id ?? UUID()
-
+            entidade.id ?? UUID()
+            
             let gastosEntidade =
-                CoreDataManager.shared.buscarGastos(
-                    cartaoId: cartaoId
-                )
-
+            CoreDataManager.shared.buscarGastos(
+                cartaoId: cartaoId
+            )
+            
             let gastos = gastosEntidade.map { gasto in
-
+                
                 Gasto(
                     id: gasto.id ?? UUID(),
                     valor: gasto.valor,
@@ -49,7 +56,7 @@ final class HomeViewModel: ObservableObject {
                     cartaoId: cartaoId
                 )
             }
-
+            
             return Cartao(
                 id: cartaoId,
                 nome: entidade.nome ?? "Sem nome",
@@ -66,12 +73,12 @@ final class HomeViewModel: ObservableObject {
             )
         }
     }
-
+    
     /// Responsável por remover um cartão da lista e do banco de dados local.
     func removerCartao(id: UUID) {
-
+        
         CoreDataManager.shared.removerCartao(id: id)
-
+        
         carregarCartoes()
     }
 }

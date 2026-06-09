@@ -13,10 +13,26 @@ final class LoginViewModel: ObservableObject {
             AuthService.shared.usuarioAtual != nil
     }
 
-    /// Atualiza o estado da autenticação após o login.
-    func atualizarAutenticacao() {
+    /// Responsável por iniciar a autenticação Google.
+    func realizarLoginGoogle() {
 
-        usuarioAutenticado =
-            AuthService.shared.usuarioAtual != nil
+        AuthService.shared.signInWithGoogle { [weak self] result in
+
+            DispatchQueue.main.async {
+
+                switch result {
+
+                case .success:
+
+                    self?.usuarioAutenticado = true
+
+                case .failure(let error):
+
+                    print(
+                        "Erro ao autenticar: \(error.localizedDescription)"
+                    )
+                }
+            }
+        }
     }
 }

@@ -88,8 +88,7 @@ struct HomeView: View {
             
             HStack {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Olá (Usuário)")
-                    //Text("Olá, \(viewModel.usuario.nome) 👋")
+                    Text("Olá, \(viewModel.nomeUsuario)")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
                     Text(dataFormatada)

@@ -6,18 +6,18 @@ import UIKit
 
 /// Centraliza as operações de autenticação do aplicativo.
 final class AuthService {
-
+    
     static let shared = AuthService()
-
+    
     private init() { }
-
+    
     /// Retorna o usuário autenticado atualmente.
     var usuarioAtual: Usuario? {
-
+        
         guard let user = Auth.auth().currentUser else {
             return nil
         }
-
+        
         return Usuario(
             id: user.uid,
             nome: user.displayName ?? "",
@@ -25,12 +25,29 @@ final class AuthService {
             cartoes: []
         )
     }
-
+    
+    /// Responsável por encerrar a sessão do usuário.
+    func signOut() {
+        
+        do {
+            
+            try Auth.auth().signOut()
+            
+            GIDSignIn.sharedInstance.signOut()
+            
+        } catch {
+            
+            print(
+                "Erro ao realizar logout: \(error.localizedDescription)"
+            )
+        }
+    }
+    
     /// Responsável por autenticar o usuário com sua conta Google.
     func signInWithGoogle(
         completion: @escaping (Result<Usuario, Error>) -> Void
     ) {
-
+        
         /// Recupera o Client ID configurado no Firebase.
         guard
             let clientID =
@@ -38,13 +55,13 @@ final class AuthService {
         else {
             return
         }
-
+        
         let config =
-            GIDConfiguration(clientID: clientID)
-
+        GIDConfiguration(clientID: clientID)
+        
         GIDSignIn.sharedInstance.configuration =
-            config
-
+        config
+        
         /// Obtém a tela atual para apresentar o login Google.
         guard
             let scene =
@@ -55,17 +72,17 @@ final class AuthService {
         else {
             return
         }
-
+        
         /// Exibe a tela de seleção de conta Google.
         GIDSignIn.sharedInstance.signIn(
             withPresenting: rootViewController
         ) { result, error in
-
+            
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
+            
             /// Recupera os dados retornados pelo Google.
             guard
                 let user = result?.user,
@@ -74,30 +91,30 @@ final class AuthService {
             else {
                 return
             }
-
+            
             /// Cria a credencial utilizada pelo Firebase.
             let credential =
-                GoogleAuthProvider.credential(
-                    withIDToken: idToken,
-                    accessToken: user.accessToken.tokenString
-                )
-
+            GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: user.accessToken.tokenString
+            )
+            
             /// Realiza a autenticação no Firebase.
             Auth.auth().signIn(
                 with: credential
             ) { authResult, error in
-
+                
                 if let error = error {
                     completion(.failure(error))
                     return
                 }
-
+                
                 guard let firebaseUser =
-                    authResult?.user
+                        authResult?.user
                 else {
                     return
                 }
-
+                
                 /// Converte o usuário do Firebase para o modelo da aplicação.
                 let usuario = Usuario(
                     id: firebaseUser.uid,
@@ -105,7 +122,7 @@ final class AuthService {
                     email: firebaseUser.email ?? "",
                     cartoes: []
                 )
-
+                
                 completion(.success(usuario))
             }
         }

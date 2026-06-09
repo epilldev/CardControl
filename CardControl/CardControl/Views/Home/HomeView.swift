@@ -16,6 +16,8 @@ private extension Color {
 struct HomeView: View {
     
     @StateObject private var viewModel = HomeViewModel()
+    @State private var mostrarLogout = false
+    @State private var logoutRealizado = false
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -61,7 +63,41 @@ struct HomeView: View {
         .onAppear {
             viewModel.carregarCartoes()
         }
-        
+        .alert(
+            "Sair da conta",
+            isPresented: $mostrarLogout
+        ) {
+
+            Button(
+                "Cancelar",
+                role: .cancel
+            ) { }
+
+            Button(
+                "Sair",
+                role: .destructive
+            ) {
+
+                AuthService.shared.signOut()
+
+                logoutRealizado = true
+            }
+
+        } message: {
+
+            Text(
+                "Deseja encerrar sua sessão?"
+            )
+        }
+        .fullScreenCover(
+            isPresented: $logoutRealizado
+        ) {
+
+            NavigationStack {
+
+                LoginView()
+            }
+        }
     }
     
     // MARK: - Header
@@ -96,7 +132,14 @@ struct HomeView: View {
                         .foregroundColor(.white.opacity(0.65))
                 }
                 Spacer()
-                avatarInicial
+                Button {
+
+                    mostrarLogout = true
+
+                } label: {
+
+                    avatarInicial
+                }
             }
             .padding(.horizontal, 20)
             .padding(.top, 60)
@@ -109,8 +152,11 @@ struct HomeView: View {
             Circle()
                 .fill(LinearGradient(colors: [.brandPink, .brandOrange], startPoint: .topLeading, endPoint: .bottomTrailing))
                 .frame(width: 50, height: 50)
-            Text("U")
-            //Text(String(viewModel.usuario.nome.prefix(1)))
+            Text(
+                String(
+                    viewModel.nomeUsuario.prefix(1)
+                )
+            )
                 .font(.system(size: 20, weight: .bold))
                 .foregroundColor(.white)
         }

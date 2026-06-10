@@ -235,15 +235,62 @@ Projeto em estágio MVP — deploy completo ainda em evolução
 
 ---
 
-## 👨‍💻 Integrantes
+## ✅ Status do Projeto por Integrante
 
-- Fábio — Arquitetura e base do projeto  
-- Thiego — API e dados  
-- Felipe — Persistência local  
-- Camila — Telas principais  
-- Vani — Fluxos, README e apresentação  
+> ✅ Concluído | ⏳ Em andamento
 
 ---
+
+### 👤 Fábio — Base do projeto / Arquitetura
+
+- ✅ Criar projeto SwiftUI  
+- ✅ Estrutura MVVM  
+- ✅ NavigationStack  
+- ✅ Pastas: Models, Views, ViewModels, Services, Repositories  
+- ✅ Criar rotas principais  
+
+---
+
+### 👤 Thiego — API / Dados
+
+- ✅ Buscar lista de cartões e compras  
+
+- ⏳ Criar mock/API de cartões  
+- ⏳ URLSession  
+- ⏳ Codable  
+- ⏳ Tratamento de loading, erro e sucesso  
+
+---
+
+### 👤 Felipe — Persistência local
+
+- ✅ Salvar ações simuladas (bloqueio, alteração de limite, solicitação)  
+- ✅ Usar CoreData ou cache local  
+
+- ⏳ Salvar cartões favoritos  
+
+---
+
+### 👤 Camila — Telas principais
+
+- ✅ Tela de Login  
+- ✅ Home / lista de cartões  
+- ✅ Tela de detalhes do cartão  
+- ✅ Layout visual do cartão virtual  
+
+---
+
+### 👤 Vani — Fluxos e apresentação
+
+- ✅ Tela de compras / histórico  
+
+- ⏳ Tela de solicitar cartão  
+- ⏳ Tela de bloquear / alterar limite  
+- ⏳ README  
+- ⏳ Roteiro da apresentação  
+
+---
+``
 
 ## ⚠️ Desafios e Erros Encontrados
 
@@ -251,7 +298,7 @@ Projeto em estágio MVP — deploy completo ainda em evolução
 - Persistência ainda em evolução  
 - Tratamento de estados da API  
 - Estruturação inicial do MVVM  
-- Tempo limitado de desenvolvimento  
+- Bugs na tela 
 
 ---
 

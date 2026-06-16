@@ -192,8 +192,18 @@ struct CreateCardView: View {
                         $0 == "."
                     }
                     
-                    viewModel.limiteTotal =
-                    filtrado
+                    let normalizado =
+                    filtrado.replacingOccurrences(
+                        of: ",",
+                        with: "."
+                    )
+                    
+                    if let valor = Double(normalizado),
+                       valor < 0 {
+                        viewModel.limiteTotal = "0"
+                    } else {
+                        viewModel.limiteTotal = filtrado
+                    }
                 }
                 
                 if let valor = valorFormatado {
@@ -370,21 +380,51 @@ struct CreateCardView: View {
         )
     }
     
+    private var apenasValoresNumericos: Bool {
+        
+        let limiteValido =
+        viewModel.limiteTotal.allSatisfy {
+            $0.isNumber || $0 == "," || $0 == "."
+        }
+        
+        return limiteValido
+        && viewModel.finalCartao.allSatisfy(\.isNumber)
+        && viewModel.cvv.allSatisfy(\.isNumber)
+    }
+    
     /// Responsável por verificar se todos os campos foram preenchidos.
     private var podeSalvar: Bool {
         
+        let textoLimite =
+        viewModel.limiteTotal
+            .replacingOccurrences(
+                of: ",",
+                with: "."
+            )
+        
+        let limiteValido =
+        Double(textoLimite).map { $0 >= 0 } ?? false
+        
+        return
         !viewModel.nome
             .trimmingCharacters(
                 in: .whitespacesAndNewlines
             )
             .isEmpty
         &&
-        !viewModel.limiteTotal.isEmpty
+        limiteValido
         &&
         viewModel.finalCartao.count == 4
         &&
+        viewModel.finalCartao.allSatisfy(\.isNumber)
+        &&
         viewModel.cvv.count == 3
-    }}
+        &&
+        viewModel.cvv.allSatisfy(\.isNumber)
+        &&
+        apenasValoresNumericos
+    }
+}
 
 #Preview {
     

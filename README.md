@@ -255,10 +255,10 @@ Projeto em estágio MVP — deploy completo ainda em evolução
 
 - ✅ Buscar lista de cartões e compras  
 
-- ⏳ Criar mock/API de cartões  
-- ⏳ URLSession  
-- ⏳ Codable  
-- ⏳ Tratamento de loading, erro e sucesso  
+- ✅ Criar mock/API de cartões  
+- ✅ URLSession  
+- ✅ Codable  
+- ✅ Tratamento de loading, erro e sucesso  
 
 ---
 
@@ -266,8 +266,7 @@ Projeto em estágio MVP — deploy completo ainda em evolução
 
 - ✅ Salvar ações simuladas (bloqueio, alteração de limite, solicitação)  
 - ✅ Usar CoreData ou cache local  
-
-- ⏳ Salvar cartões favoritos  
+- ✅ Salvar cartões favoritos  
 
 ---
 
@@ -284,10 +283,10 @@ Projeto em estágio MVP — deploy completo ainda em evolução
 
 - ✅ Tela de compras / histórico  
 
-- ⏳ Tela de solicitar cartão  
-- ⏳ Tela de bloquear / alterar limite  
-- ⏳ README  
-- ⏳ Roteiro da apresentação  
+- ✅ Tela de solicitar cartão  
+- ✅ Tela de bloquear / alterar limite  
+- ✅ README  
+- ✅ Roteiro da apresentação  
 
 ---
 ``
@@ -302,7 +301,7 @@ Projeto em estágio MVP — deploy completo ainda em evolução
 
 ---
 
-## 🔜 Melhorias Futuras
+## 🔜 Melhorias Futuras - Concluídas
 
 - Integração com API real  
 - Implementar CoreData completo  

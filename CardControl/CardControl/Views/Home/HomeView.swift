@@ -37,6 +37,16 @@ struct HomeView: View {
             }
             
             VStack {
+                HStack {
+                    Spacer()
+                    Button {
+                        mostrarLogout = true
+                    } label: {
+                        exitButton
+                    }
+                    .padding()
+                }
+                
                 Spacer()
                 
                 HStack {
@@ -123,6 +133,7 @@ struct HomeView: View {
                 .blur(radius: 40)
             
             HStack {
+                avatarInicial
                 VStack(alignment: .leading, spacing: 5) {
                     Text("Olá, \(viewModel.nomeUsuario)")
                         .font(.system(size: 24, weight: .bold))
@@ -131,20 +142,25 @@ struct HomeView: View {
                         .font(.subheadline)
                         .foregroundColor(.white.opacity(0.65))
                 }
+                .padding()
                 Spacer()
-                Button {
-
-                    mostrarLogout = true
-
-                } label: {
-
-                    avatarInicial
-                }
             }
             .padding(.horizontal, 20)
             .padding(.top, 60)
             .padding(.bottom, 28)
         }
+    }
+    
+    private var exitButton: some View {
+        ZStack {
+            Image(systemName: "power")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(.white)
+                .padding(10)
+                .background(Color.red)
+                .clipShape(Circle())
+        }
+        .shadow(color: Color.brandPink.opacity(0.5), radius: 10, x: 0, y: 5)
     }
     
     private var avatarInicial: some View {

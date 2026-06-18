@@ -16,6 +16,7 @@ private extension Color {
 struct HomeView: View {
     
     @StateObject private var viewModel = HomeViewModel()
+    @State private var currencyViewModel = CurrencyViewModel()
     @State private var mostrarLogout = false
     @State private var logoutRealizado = false
     
@@ -108,6 +109,10 @@ struct HomeView: View {
                 LoginView()
             }
         }
+        .task {
+            await currencyViewModel.fetchExchangeRate()
+        }
+
     }
     
     // MARK: - Header
@@ -141,6 +146,32 @@ struct HomeView: View {
                     Text(dataFormatada)
                         .font(.subheadline)
                         .foregroundColor(.white.opacity(0.65))
+                    // Cotacao do Dolar
+                    switch currencyViewModel.state {
+                    case .success(let info):
+                        HStack(spacing: 4) {
+                            Image(systemName: "dollarsign.circle.fill")
+                                .foregroundColor(.green)
+                            Text("Dólar:")
+                            
+                            if let valorNumero = Double(info.bid) {
+                                Text(valorNumero, format: .currency(code: "BRL").precision(.fractionLength(2)))
+                                    .bold()
+                            } else {
+                                Text("R$ \(info.bid)")
+                                    .bold()
+                            }
+                        }
+                        .font(.footnote)
+                        .foregroundColor(.white.opacity(0.8))
+                    case .loading:
+                        Text("• Atualizando cotação...")
+                            .font(.footnote)
+                            .foregroundColor(.white.opacity(0.5))
+
+                    default:
+                        EmptyView()
+                    }
                 }
                 .padding()
                 Spacer()
@@ -167,13 +198,13 @@ struct HomeView: View {
         ZStack {
             Circle()
                 .fill(LinearGradient(colors: [.brandPink, .brandOrange], startPoint: .topLeading, endPoint: .bottomTrailing))
-                .frame(width: 50, height: 50)
+                .frame(width: 60, height: 60)
             Text(
                 String(
                     viewModel.nomeUsuario.prefix(1)
                 )
             )
-                .font(.system(size: 20, weight: .bold))
+                .font(.system(size: 30, weight: .bold))
                 .foregroundColor(.white)
         }
         .shadow(color: Color.brandPink.opacity(0.5), radius: 10, x: 0, y: 5)
